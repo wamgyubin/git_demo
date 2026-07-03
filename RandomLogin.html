@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隨機風格登入系統</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Noto+Sans+TC:wght@400;700&family=Playfair+Display:wght@700&family=Space+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            width: 340px;
+            padding: 44px 36px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 11px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: all 0.3s;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .theme-badge {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 11px;
+            opacity: 0.55;
+            letter-spacing: 0.05em;
+        }
+
+        /* ══════════════════════════════
+           果凍感動畫 Jelly Effects
+        ══════════════════════════════ */
+
+        /* 容器彈入 */
+        @keyframes jelly-in {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            40% {
+                transform: scale(1.08, 0.94);
+                opacity: 1;
+            }
+
+            55% {
+                transform: scale(0.97, 1.03);
+            }
+
+            68% {
+                transform: scale(1.03, 0.98);
+            }
+
+            80% {
+                transform: scale(0.99, 1.01);
+            }
+
+            90% {
+                transform: scale(1.01, 0.995);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 按鈕按下回彈 */
+        @keyframes jelly-press {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(0.9, 1.1);
+            }
+
+            50% {
+                transform: scale(1.07, 0.95);
+            }
+
+            70% {
+                transform: scale(0.97, 1.02);
+            }
+
+            85% {
+                transform: scale(1.02, 0.99);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 輸入框聚焦微彈 */
+        @keyframes jelly-focus {
+            0% {
+                transform: scaleX(1);
+            }
+
+            30% {
+                transform: scaleX(1.015);
+            }
+
+            60% {
+                transform: scaleX(0.997);
+            }
+
+            100% {
+                transform: scaleX(1);
+            }
+        }
+
+        /* 標題輕浮動 */
+        @keyframes jelly-float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .login-container {
+            animation: jelly-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .login-container h2 {
+            animation: jelly-float 3.5s ease-in-out infinite;
+        }
+
+        .form-group input:focus {
+            animation: jelly-focus 0.35s ease both;
+        }
+
+        .login-btn {
+            transform-origin: center bottom;
+        }
+
+        .login-btn:active {
+            animation: jelly-press 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* ═══════════════════════════════
+       主題 1 ── 純黑簡約 Pure Black
+    ═══════════════════════════════ */
+        body.theme-pure-black {
+            background: #000;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .theme-pure-black .login-container {
+            background: #111;
+            border-radius: 12px;
+            box-shadow: 0 0 0 1px #333, 0 20px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .theme-pure-black h2 {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .theme-pure-black label {
+            color: #888;
+        }
+
+        .theme-pure-black input {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #eee;
+        }
+
+        .theme-pure-black input:focus {
+            border-color: #666;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+        }
+
+        .theme-pure-black .login-btn {
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .theme-pure-black .login-btn:hover {
+            background: #ddd;
+        }
+
+        .theme-pure-black .login-footer {
+            color: #444;
+        }
+
+        .theme-pure-black .theme-badge {
+            color: #555;
+        }
+
+        /* ═══════════════════════════════
+       主題 2 ── 深灰卡片 Dark Card
+    ═══════════════════════════════ */
+        body.theme-dark-card {
+            background: #1a1a1a;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .theme-dark-card .login-container {
+            background: #242424;
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid #2e2e2e;
+        }
+
+        .theme-dark-card h2 {
+            color: #e0e0e0;
+            font-weight: 700;
+        }
+
+        .theme-dark-card label {
+            color: #6e6e6e;
+        }
+
+        .theme-dark-card input {
+            background: #2e2e2e;
+            border: 1px solid #3a3a3a;
+            border-radius: 10px;
+            color: #ccc;
+        }
+
+        .theme-dark-card input:focus {
+            border-color: #888;
+            box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.12);
+        }
+
+        .theme-dark-card .login-btn {
+            background: #3a3a3a;
+            border: 1px solid #555;
+            border-radius: 10px;
+            color: #ddd;
+            font-weight: 700;
+        }
+
+        .theme-dark-card .login-btn:hover {
+            background: #484848;
+            border-color: #777;
+        }
+
+        .theme-dark-card .login-footer {
+            color: #4a4a4a;
+        }
+
+        .theme-dark-card .theme-badge {
+            color: #555;
+        }
+
+        /* ═══════════════════════════════
+       主題 3 ── 暗色毛玻璃 Dark Glass
+    ═══════════════════════════════ */
+        body.theme-dark-glass {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #111 100%);
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .theme-dark-glass .login-container {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .theme-dark-glass h2 {
+            color: #ddd;
+            font-weight: 700;
+        }
+
+        .theme-dark-glass label {
+            color: rgba(200, 200, 200, 0.65);
+        }
+
+        .theme-dark-glass input {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: #ccc;
+        }
+
+        .theme-dark-glass input::placeholder {
+            color: rgba(200, 200, 200, 0.35);
+        }
+
+        .theme-dark-glass input:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-dark-glass .login-btn {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            color: #ddd;
+            font-weight: 700;
+        }
+
+        .theme-dark-glass .login-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .theme-dark-glass .login-footer {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .theme-dark-glass .theme-badge {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ═══════════════════════════════
+       主題 4 ── 灰色終端 Grey Terminal
+    ═══════════════════════════════ */
+        body.theme-grey-terminal {
+            background: #0e0e0e;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .theme-grey-terminal .login-container {
+            background: #141414;
+            border: 1px solid #444;
+            border-radius: 2px;
+            box-shadow: 0 0 0 3px #0e0e0e, 0 0 20px rgba(180, 180, 180, 0.08);
+        }
+
+        .theme-grey-terminal h2 {
+            color: #c8c8c8;
+            font-size: 15px;
+            letter-spacing: 0.18em;
+        }
+
+        .theme-grey-terminal label {
+            color: #666;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+        }
+
+        .theme-grey-terminal input {
+            background: #0a0a0a;
+            border: 1px solid #3a3a3a;
+            border-radius: 0;
+            color: #bbb;
+            font-family: 'Space Mono', monospace;
+            caret-color: #aaa;
+        }
+
+        .theme-grey-terminal input:focus {
+            border-color: #888;
+            box-shadow: 0 0 6px rgba(180, 180, 180, 0.15);
+        }
+
+        .theme-grey-terminal .login-btn {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 0;
+            color: #ccc;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+
+        .theme-grey-terminal .login-btn:hover {
+            background: #444;
+            color: #eee;
+        }
+
+        .theme-grey-terminal .login-footer {
+            color: #3a3a3a;
+        }
+
+        .theme-grey-terminal .theme-badge {
+            color: #555;
+        }
+
+        /* ═══════════════════════════════
+       主題 5 ── 石墨漸層 Graphite
+    ═══════════════════════════════ */
+        body.theme-graphite {
+            background: linear-gradient(160deg, #0f0f0f 0%, #1e1e1e 100%);
+            font-family: 'Playfair Display', 'Noto Sans TC', serif;
+        }
+
+        .theme-graphite .login-container {
+            background: linear-gradient(160deg, #1c1c1c 0%, #141414 100%);
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+
+        .theme-graphite h2 {
+            color: #d0d0d0;
+            font-size: 22px;
+            letter-spacing: 0.06em;
+        }
+
+        .theme-graphite label {
+            color: #666;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+        }
+
+        .theme-graphite input {
+            background: #0e0e0e;
+            border: 1px solid #2a2a2a;
+            border-bottom: 1px solid #555;
+            border-radius: 4px;
+            color: #bbb;
+        }
+
+        .theme-graphite input:focus {
+            border-color: #888;
+            box-shadow: 0 2px 0 #777;
+        }
+
+        .theme-graphite .login-btn {
+            background: linear-gradient(90deg, #2e2e2e, #444, #2e2e2e);
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #ccc;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .theme-graphite .login-btn:hover {
+            filter: brightness(1.25);
+        }
+
+        .theme-graphite .login-footer {
+            color: #333;
+        }
+
+        .theme-graphite .theme-badge {
+            color: #555;
+        }
+
+        /* ═══════════════════════════════
+       主題 6 ── 鋼鐵灰 Steel Gray
+    ═══════════════════════════════ */
+        body.theme-steel {
+            background: #1c1c1c;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .theme-steel .login-container {
+            background: #252525;
+            border-radius: 12px;
+            border-top: 3px solid #666;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 1px 0 #333;
+        }
+
+        .theme-steel h2 {
+            color: #bbb;
+            font-weight: 700;
+        }
+
+        .theme-steel label {
+            color: #5a5a5a;
+        }
+
+        .theme-steel input {
+            background: #1a1a1a;
+            border: 1.5px solid #383838;
+            border-radius: 8px;
+            color: #aaa;
+        }
+
+        .theme-steel input:focus {
+            border-color: #777;
+            box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.1);
+        }
+
+        .theme-steel .login-btn {
+            background: #555;
+            border: none;
+            border-radius: 8px;
+            color: #eee;
+            font-weight: 700;
+        }
+
+        .theme-steel .login-btn:hover {
+            background: #666;
+        }
+
+        .theme-steel .login-footer {
+            color: #404040;
+        }
+
+        .theme-steel .theme-badge {
+            color: #555;
+        }
+
+        /* ═══════════════════════════════
+       主題 7 ── 午夜霧 Midnight Mist
+    ═══════════════════════════════ */
+        body.theme-midnight {
+            background: radial-gradient(ellipse at top, #1a1a1a 0%, #0a0a0a 100%);
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .theme-midnight .login-container {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .theme-midnight h2 {
+            background: linear-gradient(90deg, #888, #bbb, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .theme-midnight label {
+            color: #4a4a4a;
+        }
+
+        .theme-midnight input {
+            background: #151515;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            color: #999;
+            padding-left: 18px;
+        }
+
+        .theme-midnight input:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
+        }
+
+        .theme-midnight .login-btn {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: #aaa;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .theme-midnight .login-btn:hover {
+            background: linear-gradient(135deg, #333, #444);
+            color: #ccc;
+        }
+
+        .theme-midnight .login-footer {
+            color: #333;
+        }
+
+        .theme-midnight .theme-badge {
+            color: #444;
+        }
+
+        /* ═══════════════════════════════
+       主題 8 ── 暗色新擬態 Dark Neumorphism
+    ═══════════════════════════════ */
+        body.theme-dark-neu {
+            background: #1e1e1e;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .theme-dark-neu .login-container {
+            background: #1e1e1e;
+            border-radius: 20px;
+            box-shadow: 8px 8px 16px #141414, -8px -8px 16px #282828;
+        }
+
+        .theme-dark-neu h2 {
+            color: #888;
+            font-weight: 700;
+        }
+
+        .theme-dark-neu label {
+            color: #555;
+        }
+
+        .theme-dark-neu input {
+            background: #1e1e1e;
+            border: none;
+            border-radius: 10px;
+            color: #aaa;
+            box-shadow: inset 4px 4px 8px #141414, inset -4px -4px 8px #282828;
+        }
+
+        .theme-dark-neu input:focus {
+            box-shadow: inset 5px 5px 10px #141414, inset -5px -5px 10px #282828,
+                0 0 0 2px #555;
+        }
+
+        .theme-dark-neu .login-btn {
+            background: #1e1e1e;
+            border: none;
+            border-radius: 10px;
+            color: #999;
+            font-weight: 700;
+            box-shadow: 5px 5px 12px #141414, -5px -5px 12px #282828;
+        }
+
+        .theme-dark-neu .login-btn:hover {
+            box-shadow: 2px 2px 6px #141414, -2px -2px 6px #282828;
+            color: #bbb;
+        }
+
+        .theme-dark-neu .login-footer {
+            color: #3a3a3a;
+        }
+
+        .theme-dark-neu .theme-badge {
+            color: #4a4a4a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>登入系統</h2>
+        <form action="login.php" method="post">
+            <div class="form-group">
+                <label for="username">帳號：</label>
+                <input type="text" id="username" name="username" placeholder="請輸入帳號" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">密碼：</label>
+                <input type="password" id="password" name="password" placeholder="請輸入密碼" required
+                    autocomplete="current-password">
+            </div>
+            <button class="login-btn" type="submit">登入</button>
+        </form>
+        <div class="login-footer">尚未註冊？請聯絡管理員。</div>
+        <div class="theme-badge" id="themeName"></div>
+    </div>
+
+    <script>
+        const themes = [
+            { cls: 'theme-pure-black', name: '純黑簡約 Pure Black' },
+            { cls: 'theme-dark-card', name: '深灰卡片 Dark Card' },
+            { cls: 'theme-dark-glass', name: '暗色毛玻璃 Dark Glass' },
+            { cls: 'theme-grey-terminal', name: '灰色終端 Grey Terminal' },
+            { cls: 'theme-graphite', name: '石墨漸層 Graphite' },
+            { cls: 'theme-steel', name: '鋼鐵灰 Steel Gray' },
+            { cls: 'theme-midnight', name: '午夜霧 Midnight Mist' },
+            { cls: 'theme-dark-neu', name: '暗色新擬態 Dark Neumorphism' },
+        ];
+
+        const picked = themes[Math.floor(Math.random() * themes.length)];
+        document.body.classList.add(picked.cls);
+        document.getElementById('themeName').textContent = '✦ 本次主題：' + picked.name;
+    </script>
+
+</body>
+
+</html>
