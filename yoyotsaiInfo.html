@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <!-- 關鍵：讓手機瀏覽時能自動放大縮小，完美符合螢幕尺寸 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的個人首頁</title>
+    <style>
+        /* 整體風格設定 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 手機版主要容器卡片 */
+        .profile-container {
+            width: 100%;
+            max-width: 400px; /* 限制最大寬度，在電腦看也好看 */
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            margin: 15px;
+        }
+
+        /* 大頭貼樣式 */
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 姓名 */
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+            color: #1a202c;
+        }
+
+        /* 職稱或副標題 */
+        .title {
+            font-size: 14px;
+            color: #4a5568;
+            background-color: #edf2f7;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* 自我介紹文字 */
+        .bio {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        /* 社群按鈕區塊 */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 按鈕基本樣式 */
+        .link-btn {
+            display: block;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        /* 不同的按鈕顏色 */
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-secondary {
+            background-color: #1877f2;
+            color: #ffffff;
+        }
+
+        .btn-dark {
+            background-color: #24292e;
+            color: #ffffff;
+        }
+
+        /* 頁尾微小文字 */
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <!-- 大頭貼：這裡暫時用 Emoji 代替，你可以換成自己的圖片網址，例如 <img src="帥照.jpg" class="avatar"> -->
+        <div class="avatar">🐷</div>
+
+        <!-- 個人資訊 -->
+        <div class="name">蔡董事長 (Yoyo)</div>
+        <div class="title">阿瀚豬仔國際批發 / 豬仔交易愛好者</div>
+
+        <!-- 簡短自我介紹 -->
+        <p class="bio">
+            嗨！我是阿瀚。我熱愛販賣豬仔。把豬仔賣到別的國家，榨乾每隻豬隻的價值，是我最大的愛好。歡迎透過下方連結與我聯絡賣豬！
+        </p>
+
+        <!-- 個人連結 (類似 Linktree 的效果，非常適合手機瀏覽) -->
+        <div class="links">
+            <a href="https://wholestonefarms.com/pig-101/" target="_blank" class="link-btn btn-primary">🥩 豬仔批發網站</a>
+            <a href="https://instagram.com" target="_blank" class="link-btn btn-secondary">📸 追蹤我的 Instagram</a>
+            
+        </div>
+
+        <!-- 頁尾 -->
+        <div class="footer">
+            © 2026 Ming. Built with ♥
+        </div>
+    </div>
+
+</body>
+</html>
