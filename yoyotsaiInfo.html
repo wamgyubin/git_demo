@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -194,10 +194,450 @@
             font-size: 28px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
         }
+
+        /* 背景遮罩 */
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 視窗 */
+        .modal-content {
+
+            background: white;
+            width: 90%;
+            max-width: 350px;
+
+            border-radius: 18px;
+            padding: 25px;
+
+            text-align: center;
+
+            animation: popup .4s;
+        }
+
+        @keyframes popup {
+
+            from {
+                transform: scale(.6);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content button {
+
+            margin-top: 20px;
+
+            padding: 12px 30px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+        .close {
+
+            float: right;
+
+            font-size: 30px;
+
+            cursor: pointer;
+
+        }
+
+        /* ===== 鈔票雨 ===== */
+
+        .money {
+            position: fixed;
+            top: -50px;
+            font-size: 30px;
+            pointer-events: none;
+            animation: moneyFall 3s linear forwards;
+            z-index: 99999;
+        }
+
+        @keyframes moneyFall {
+
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+
+        }
+
+        /* ===== 中獎發光 ===== */
+
+        .glow {
+
+            animation: glow 1s ease-in-out infinite alternate;
+
+        }
+
+        @keyframes glow {
+
+            from {
+
+                text-shadow:
+                    0 0 10px gold,
+                    0 0 20px gold,
+                    0 0 40px orange;
+
+                transform: scale(1);
+
+            }
+
+            to {
+
+                text-shadow:
+                    0 0 20px yellow,
+                    0 0 40px gold,
+                    0 0 80px orange;
+
+                transform: scale(1.1);
+
+            }
+
+        }
+
+        /* ===== 彩虹霓虹發光 ===== */
+
+        .glow {
+
+            animation: rainbowGlow 1.2s infinite alternate;
+
+        }
+
+        @keyframes rainbowGlow {
+
+            0% {
+                color: #ff0000;
+                text-shadow:
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 40px #ff0000;
+                transform: scale(1);
+            }
+
+            20% {
+                color: #ff8000;
+                text-shadow:
+                    0 0 10px #ff8000,
+                    0 0 20px #ff8000,
+                    0 0 40px #ff8000;
+            }
+
+            40% {
+                color: #ffff00;
+                text-shadow:
+                    0 0 10px #ffff00,
+                    0 0 20px #ffff00,
+                    0 0 40px #ffff00;
+            }
+
+            60% {
+                color: #00ff00;
+                text-shadow:
+                    0 0 10px #00ff00,
+                    0 0 20px #00ff00,
+                    0 0 40px #00ff00;
+            }
+
+            80% {
+                color: #00ccff;
+                text-shadow:
+                    0 0 10px #00ccff,
+                    0 0 20px #00ccff,
+                    0 0 40px #00ccff;
+            }
+
+            100% {
+                color: #cc00ff;
+                text-shadow:
+                    0 0 10px #cc00ff,
+                    0 0 20px #cc00ff,
+                    0 0 40px #cc00ff;
+                transform: scale(1.15);
+            }
+
+        }
+
+        /* ========================= */
+        /* Loading */
+        /* ========================= */
+
+        #loader {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: #f5f7fa;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 999999;
+
+        }
+
+        .pig-loader {
+
+            font-size: 80px;
+
+            animation: bounce 1s infinite;
+
+        }
+
+        .loading-bar {
+
+            width: 220px;
+
+            height: 10px;
+
+            background: #ddd;
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            margin-top: 20px;
+
+        }
+
+        .loading-progress {
+
+            width: 0;
+
+            height: 100%;
+
+            background: #4f46e5;
+
+            animation: loading 2s forwards;
+
+        }
+
+        @keyframes loading {
+
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+        }
+
+        .flyingPig {
+
+            position: fixed;
+
+            font-size: 35px;
+
+            animation: flyPig linear infinite;
+
+            pointer-events: none;
+
+            opacity: .7;
+
+        }
+
+        @keyframes flyPig {
+
+            from {
+
+                transform: translateX(-100px);
+
+            }
+
+            to {
+
+                transform: translateX(110vw);
+
+            }
+
+        }
+
+        .mousePig {
+
+            position: fixed;
+
+            pointer-events: none;
+
+            font-size: 22px;
+
+            animation: fadePig .8s linear forwards;
+
+        }
+
+        @keyframes fadePig {
+
+            from {
+
+                opacity: 1;
+
+                transform: scale(1);
+
+            }
+
+            to {
+
+                opacity: 0;
+
+                transform: translateY(-20px) scale(.3);
+
+            }
+
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js">
+    </script>
+    <script>
+        function moneyRain() {
+
+            for (let i = 0; i < 40; i++) {
+
+                const money = document.createElement("div");
+
+                money.className = "money";
+
+                money.innerHTML = "💵";
+
+                money.style.left = Math.random() * 100 + "vw";
+
+                money.style.animationDelay = Math.random() * 1 + "s";
+
+                money.style.fontSize = (20 + Math.random() * 25) + "px";
+
+
+
+            }
+
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+
+            setTimeout(function () {
+                document.getElementById("loader").style.display = "none";
+            }, 2000);
+
+        });
+        function createPig() {
+
+            const pig = document.createElement("div");
+
+            pig.className = "flyingPig";
+
+            pig.innerHTML = "🐷";
+
+            pig.style.top = Math.random() * 90 + "vh";
+
+            pig.style.animationDuration = (8 + Math.random() * 8) + "s";
+
+            pig.style.fontSize = (25 + Math.random() * 25) + "px";
+
+            document.body.appendChild(pig);
+
+            setTimeout(() => {
+
+                pig.remove();
+
+            }, 16000);
+
+        }
+        document.addEventListener("mousemove", function (e) {
+
+            const pig = document.createElement("div");
+
+            pig.className = "mousePig";
+
+            pig.innerHTML = "🐷";
+
+            pig.style.left = e.pageX + "px";
+
+            pig.style.top = e.pageY + "px";
+
+            document.body.appendChild(pig);
+
+            setTimeout(() => {
+
+                pig.remove();
+
+            }, 800);
+
+        });
+        setInterval(createPig, 1200);
+    </script>
+
 </head>
 
 <body>
+    <div id="loader">
+
+        <div class="pig-loader">
+            🐷
+        </div>
+
+        <h2>Loading...</h2>
+
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+
+    </div>
     <div class="links">
 
         <a href="https://wholestonefarms.com/pig-101/" target="_blank" class="link-btn btn-primary">
@@ -259,6 +699,33 @@
         </div>
 
     </div>
+    <!-- 彈出視窗 -->
+    <div id="popup" class="modal">
+
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+
+            <h2>🐷 歡迎光臨！</h2>
+
+            <p>
+                🎉 歡迎來到蔡董事長豬隻批發中心！
+            </p>
+
+            <p>
+                🔥 本週優惠活動<br>
+                ・大量採購享優惠<br>
+                ・提供配送服務<br>
+                ・歡迎洽詢合作
+            </p>
+
+            <button onclick="closePopup()">
+                立即進入
+            </button>
+
+        </div>
+
+    </div>
     <div class="profile-container">
         <!-- 大頭貼：這裡暫時用 Emoji 代替，你可以換成自己的圖片網址，例如 <img src="帥照.jpg" class="avatar"> -->
         <div class="avatar">🐷</div>
@@ -287,6 +754,120 @@
     <a class="floating-btn" href="https://line.me" target="_blank">
         💬
     </a>
+    <a href="#" class="link-btn btn-danger" onclick="drawPrize()">
+        🎁 點我抽獎
+    </a>
+    <script>
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        document.querySelector(".close").onclick = function () {
+            closePopup();
+        }
+
+        // 點背景也能關閉
+        window.onclick = function (e) {
+            if (e.target == document.getElementById("popup")) {
+                closePopup();
+            }
+        }
+
+    </script>
+    <div id="prizeModal" class="modal" style="display:none;">
+
+        <div class="modal-content">
+
+            <h2>🎉 抽獎結果 🎉</h2>
+
+            <h1 id="result">🎰</h1>
+            <button onclick="closePrize()">
+                關閉
+            </button>
+
+        </div>
+
+    </div>
+    <script>
+
+        function drawPrize() {
+
+            document.getElementById("prizeModal").style.display = "flex";
+
+            const prizes = [
+                "🐷 95折優惠",
+                "🥩 五花肉一份",
+                "🐖 小豬玩偶",
+                "💰 500元折價券",
+                "🚚 免運一次",
+                "😂 銘謝惠顧"
+            ];
+
+            let result = document.getElementById("result");
+
+            let count = 0;
+
+            let slot = setInterval(function () {
+
+                let random = Math.floor(Math.random() * prizes.length);
+
+                result.innerHTML = prizes[random];
+
+                count++;
+
+                if (count >= 20) {
+
+                    clearInterval(slot);
+
+                    result.style.color = "#e11d48";
+                    result.style.fontSize = "34px";
+                    result.classList.add("glow");
+
+                    // 左右兩側一起發射彩帶
+                    // 左邊
+                    confetti({
+                        particleCount: 80,
+                        angle: 60,
+                        spread: 70,
+                        origin: { x: 0 }
+                    });
+
+                    // 右邊
+                    confetti({
+                        particleCount: 80,
+                        angle: 120,
+                        spread: 70,
+                        origin: { x: 1 }
+                    });
+
+                    // 中間
+                    confetti({
+                        particleCount: 120,
+                        spread: 100,
+                        origin: { y: 0.6 }
+                    });
+                    moneyRain();
+                }
+
+            }, 100);
+
+        }
+
+        function closePrize() {
+
+            document.getElementById("prizeModal").style.display = "none";
+
+            const result = document.getElementById("result");
+
+            result.classList.remove("glow");
+
+            result.style.color = "";
+
+            result.style.fontSize = "";
+
+        }
+    </script>
 </body>
 
 </html>
