@@ -1,0 +1,873 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <!-- 關鍵：讓手機瀏覽時能自動放大縮小，完美符合螢幕尺寸 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的個人首頁</title>
+    <style>
+        /* 整體風格設定 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 手機版主要容器卡片 */
+        .profile-container {
+            width: 100%;
+            max-width: 400px;
+            /* 限制最大寬度，在電腦看也好看 */
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 30px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            margin: 15px;
+        }
+
+        /* 大頭貼樣式 */
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 姓名 */
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+            color: #1a202c;
+        }
+
+        /* 職稱或副標題 */
+        .title {
+            font-size: 14px;
+            color: #4a5568;
+            background-color: #edf2f7;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* 自我介紹文字 */
+        .bio {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        /* 社群按鈕區塊 */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 按鈕基本樣式 */
+        .link-btn {
+            display: block;
+            padding: 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        /* 不同的按鈕顏色 */
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-secondary {
+            background-color: #1877f2;
+            color: #ffffff;
+        }
+
+        .btn-dark {
+            background-color: #24292e;
+            color: #ffffff;
+        }
+
+        /* 頁尾微小文字 */
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+
+        .btn-success {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-info {
+            background: #0891b2;
+            color: white;
+        }
+
+        .btn-gray {
+            background: #64748b;
+            color: white;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .15);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .card p {
+            margin-top: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .floating-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #22c55e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 28px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+        }
+
+        /* 背景遮罩 */
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 視窗 */
+        .modal-content {
+
+            background: white;
+            width: 90%;
+            max-width: 350px;
+
+            border-radius: 18px;
+            padding: 25px;
+
+            text-align: center;
+
+            animation: popup .4s;
+        }
+
+        @keyframes popup {
+
+            from {
+                transform: scale(.6);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content button {
+
+            margin-top: 20px;
+
+            padding: 12px 30px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+        .close {
+
+            float: right;
+
+            font-size: 30px;
+
+            cursor: pointer;
+
+        }
+
+        /* ===== 鈔票雨 ===== */
+
+        .money {
+            position: fixed;
+            top: -50px;
+            font-size: 30px;
+            pointer-events: none;
+            animation: moneyFall 3s linear forwards;
+            z-index: 99999;
+        }
+
+        @keyframes moneyFall {
+
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+
+        }
+
+        /* ===== 中獎發光 ===== */
+
+        .glow {
+
+            animation: glow 1s ease-in-out infinite alternate;
+
+        }
+
+        @keyframes glow {
+
+            from {
+
+                text-shadow:
+                    0 0 10px gold,
+                    0 0 20px gold,
+                    0 0 40px orange;
+
+                transform: scale(1);
+
+            }
+
+            to {
+
+                text-shadow:
+                    0 0 20px yellow,
+                    0 0 40px gold,
+                    0 0 80px orange;
+
+                transform: scale(1.1);
+
+            }
+
+        }
+
+        /* ===== 彩虹霓虹發光 ===== */
+
+        .glow {
+
+            animation: rainbowGlow 1.2s infinite alternate;
+
+        }
+
+        @keyframes rainbowGlow {
+
+            0% {
+                color: #ff0000;
+                text-shadow:
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 40px #ff0000;
+                transform: scale(1);
+            }
+
+            20% {
+                color: #ff8000;
+                text-shadow:
+                    0 0 10px #ff8000,
+                    0 0 20px #ff8000,
+                    0 0 40px #ff8000;
+            }
+
+            40% {
+                color: #ffff00;
+                text-shadow:
+                    0 0 10px #ffff00,
+                    0 0 20px #ffff00,
+                    0 0 40px #ffff00;
+            }
+
+            60% {
+                color: #00ff00;
+                text-shadow:
+                    0 0 10px #00ff00,
+                    0 0 20px #00ff00,
+                    0 0 40px #00ff00;
+            }
+
+            80% {
+                color: #00ccff;
+                text-shadow:
+                    0 0 10px #00ccff,
+                    0 0 20px #00ccff,
+                    0 0 40px #00ccff;
+            }
+
+            100% {
+                color: #cc00ff;
+                text-shadow:
+                    0 0 10px #cc00ff,
+                    0 0 20px #cc00ff,
+                    0 0 40px #cc00ff;
+                transform: scale(1.15);
+            }
+
+        }
+
+        /* ========================= */
+        /* Loading */
+        /* ========================= */
+
+        #loader {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: #f5f7fa;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 999999;
+
+        }
+
+        .pig-loader {
+
+            font-size: 80px;
+
+            animation: bounce 1s infinite;
+
+        }
+
+        .loading-bar {
+
+            width: 220px;
+
+            height: 10px;
+
+            background: #ddd;
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            margin-top: 20px;
+
+        }
+
+        .loading-progress {
+
+            width: 0;
+
+            height: 100%;
+
+            background: #4f46e5;
+
+            animation: loading 2s forwards;
+
+        }
+
+        @keyframes loading {
+
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+        }
+
+        .flyingPig {
+
+            position: fixed;
+
+            font-size: 35px;
+
+            animation: flyPig linear infinite;
+
+            pointer-events: none;
+
+            opacity: .7;
+
+        }
+
+        @keyframes flyPig {
+
+            from {
+
+                transform: translateX(-100px);
+
+            }
+
+            to {
+
+                transform: translateX(110vw);
+
+            }
+
+        }
+
+        .mousePig {
+
+            position: fixed;
+
+            pointer-events: none;
+
+            font-size: 22px;
+
+            animation: fadePig .8s linear forwards;
+
+        }
+
+        @keyframes fadePig {
+
+            from {
+
+                opacity: 1;
+
+                transform: scale(1);
+
+            }
+
+            to {
+
+                opacity: 0;
+
+                transform: translateY(-20px) scale(.3);
+
+            }
+
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js">
+    </script>
+    <script>
+        function moneyRain() {
+
+            for (let i = 0; i < 40; i++) {
+
+                const money = document.createElement("div");
+
+                money.className = "money";
+
+                money.innerHTML = "💵";
+
+                money.style.left = Math.random() * 100 + "vw";
+
+                money.style.animationDelay = Math.random() * 1 + "s";
+
+                money.style.fontSize = (20 + Math.random() * 25) + "px";
+
+
+
+            }
+
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+
+            setTimeout(function () {
+                document.getElementById("loader").style.display = "none";
+            }, 2000);
+
+        });
+        function createPig() {
+
+            const pig = document.createElement("div");
+
+            pig.className = "flyingPig";
+
+            pig.innerHTML = "🐷";
+
+            pig.style.top = Math.random() * 90 + "vh";
+
+            pig.style.animationDuration = (8 + Math.random() * 8) + "s";
+
+            pig.style.fontSize = (25 + Math.random() * 25) + "px";
+
+            document.body.appendChild(pig);
+
+            setTimeout(() => {
+
+                pig.remove();
+
+            }, 16000);
+
+        }
+        document.addEventListener("mousemove", function (e) {
+
+            const pig = document.createElement("div");
+
+            pig.className = "mousePig";
+
+            pig.innerHTML = "🐷";
+
+            pig.style.left = e.pageX + "px";
+
+            pig.style.top = e.pageY + "px";
+
+            document.body.appendChild(pig);
+
+            setTimeout(() => {
+
+                pig.remove();
+
+            }, 800);
+
+        });
+        setInterval(createPig, 1200);
+    </script>
+
+</head>
+
+<body>
+    <div id="loader">
+
+        <div class="pig-loader">
+            🐷
+        </div>
+
+        <h2>Loading...</h2>
+
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+
+    </div>
+    <div class="links">
+
+        <a href="https://wholestonefarms.com/pig-101/" target="_blank" class="link-btn btn-primary">
+            🥩 今日豬隻行情
+        </a>
+
+        <a href="#" class="link-btn btn-success">
+            🐖 豬隻批發型錄
+        </a>
+
+        <a href="#" class="link-btn btn-warning">
+            📦 大量採購優惠
+        </a>
+
+        <a href="#" class="link-btn btn-danger">
+            🔥 本週精選豬隻
+        </a>
+
+        <a href="#" class="link-btn btn-secondary">
+            📸 豬舍實拍
+        </a>
+
+        <a href="#" class="link-btn btn-info">
+            🚚 配送流程
+        </a>
+
+        <a href="#" class="link-btn btn-gray">
+            🏆 客戶好評
+        </a>
+
+        <a href="https://line.me" target="_blank" class="link-btn btn-success">
+            💬 LINE 線上客服
+        </a>
+
+        <a href="tel:0912345678" class="link-btn btn-primary">
+            ☎️ 一鍵來電
+        </a>
+
+        <a href="https://maps.google.com" target="_blank" class="link-btn btn-dark">
+            📍 農場位置
+        </a>
+
+    </div>
+    <div class="stats">
+
+        <div class="card">
+            <h3>今日成交</h3>
+            <p>128 隻</p>
+        </div>
+
+        <div class="card">
+            <h3>合作牧場</h3>
+            <p>26 家</p>
+        </div>
+
+        <div class="card">
+            <h3>累積客戶</h3>
+            <p>580+</p>
+        </div>
+
+    </div>
+    <!-- 彈出視窗 -->
+    <div id="popup" class="modal">
+
+        <div class="modal-content">
+
+            <span class="close">&times;</span>
+
+            <h2>🐷 歡迎光臨！</h2>
+
+            <p>
+                🎉 歡迎來到蔡董事長豬隻批發中心！
+            </p>
+
+            <p>
+                🔥 本週優惠活動<br>
+                ・大量採購享優惠<br>
+                ・提供配送服務<br>
+                ・歡迎洽詢合作
+            </p>
+
+            <button onclick="closePopup()">
+                立即進入
+            </button>
+
+        </div>
+
+    </div>
+    <div class="profile-container">
+        <!-- 大頭貼：這裡暫時用 Emoji 代替，你可以換成自己的圖片網址，例如 <img src="帥照.jpg" class="avatar"> -->
+        <div class="avatar">🐷</div>
+
+        <!-- 個人資訊 -->
+        <div class="name">蔡董事長 (Yoyo)</div>
+        <div class="title">阿瀚豬仔國際批發 / 豬仔交易愛好者</div>
+
+        <!-- 簡短自我介紹 -->
+        <p class="bio">
+            嗨！我是阿瀚。我熱愛販賣豬仔。把豬仔賣到別的國家，榨乾每隻豬隻的價值，是我最大的愛好。歡迎透過下方連結與我聯絡賣豬！
+        </p>
+
+        <!-- 個人連結 (類似 Linktree 的效果，非常適合手機瀏覽) -->
+        <div class="links">
+            <a href="https://wholestonefarms.com/pig-101/" target="_blank" class="link-btn btn-primary">🥩 豬仔批發網站</a>
+            <a href="https://instagram.com" target="_blank" class="link-btn btn-secondary">📸 追蹤我的 Instagram</a>
+
+        </div>
+
+        <!-- 頁尾 -->
+        <div class="footer">
+            © 2026 Ming. Built with ♥
+        </div>
+    </div>
+    <a class="floating-btn" href="https://line.me" target="_blank">
+        💬
+    </a>
+    <a href="#" class="link-btn btn-danger" onclick="drawPrize()">
+        🎁 點我抽獎
+    </a>
+    <script>
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        document.querySelector(".close").onclick = function () {
+            closePopup();
+        }
+
+        // 點背景也能關閉
+        window.onclick = function (e) {
+            if (e.target == document.getElementById("popup")) {
+                closePopup();
+            }
+        }
+
+    </script>
+    <div id="prizeModal" class="modal" style="display:none;">
+
+        <div class="modal-content">
+
+            <h2>🎉 抽獎結果 🎉</h2>
+
+            <h1 id="result">🎰</h1>
+            <button onclick="closePrize()">
+                關閉
+            </button>
+
+        </div>
+
+    </div>
+    <script>
+
+        function drawPrize() {
+
+            document.getElementById("prizeModal").style.display = "flex";
+
+            const prizes = [
+                "🐷 95折優惠",
+                "🥩 五花肉一份",
+                "🐖 小豬玩偶",
+                "💰 500元折價券",
+                "🚚 免運一次",
+                "😂 銘謝惠顧"
+            ];
+
+            let result = document.getElementById("result");
+
+            let count = 0;
+
+            let slot = setInterval(function () {
+
+                let random = Math.floor(Math.random() * prizes.length);
+
+                result.innerHTML = prizes[random];
+
+                count++;
+
+                if (count >= 20) {
+
+                    clearInterval(slot);
+
+                    result.style.color = "#e11d48";
+                    result.style.fontSize = "34px";
+                    result.classList.add("glow");
+
+                    // 左右兩側一起發射彩帶
+                    // 左邊
+                    confetti({
+                        particleCount: 80,
+                        angle: 60,
+                        spread: 70,
+                        origin: { x: 0 }
+                    });
+
+                    // 右邊
+                    confetti({
+                        particleCount: 80,
+                        angle: 120,
+                        spread: 70,
+                        origin: { x: 1 }
+                    });
+
+                    // 中間
+                    confetti({
+                        particleCount: 120,
+                        spread: 100,
+                        origin: { y: 0.6 }
+                    });
+                    moneyRain();
+                }
+
+            }, 100);
+
+        }
+
+        function closePrize() {
+
+            document.getElementById("prizeModal").style.display = "none";
+
+            const result = document.getElementById("result");
+
+            result.classList.remove("glow");
+
+            result.style.color = "";
+
+            result.style.fontSize = "";
+
+        }
+    </script>
+</body>
+
+</html>
